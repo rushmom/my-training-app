@@ -2,1249 +2,1350 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>My Training Programme</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #F5F0E8;
-    --warm-white: #FAF8F4;
-    --charcoal: #2A2520;
-    --mid: #6B6560;
-    --light: #B8B0A8;
-    --accent: #C4956A;
-    --accent-light: #E8D5C0;
-    --success: #7A9E7E;
-    --border: #E0D8CE;
+    --bg: #F7F8FC;
+    --white: #FFFFFF;
+    --ink: #0F0F1A;
+    --ink2: #5A5A72;
+    --ink3: #A0A0B8;
+    --coral: #FF5C5C;
+    --coral-soft: #FFF0F0;
+    --coral-mid: #FFCECE;
+    --green: #22C27A;
+    --green-soft: #EDFAF4;
+    --border: #EAEAF2;
+    --shadow: 0 2px 16px rgba(15,15,26,0.07);
+    --shadow-lg: 0 8px 32px rgba(15,15,26,0.12);
   }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--ink); font-size: 14px; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .screen { display: none; height: 100vh; flex-direction: column; overflow: hidden; }
+  .screen.active { display: flex; }
 
-  body {
-    font-family: 'DM Mono', monospace;
-    background: var(--cream);
-    color: var(--charcoal);
-    min-height: 100vh;
-    font-size: 13px;
-  }
-
-  /* ── SCREENS ── */
-  .screen { display: none; min-height: 100vh; }
-  .screen.active { display: flex; flex-direction: column; }
-
-  /* ── HOME ── */
+  /* ══ HOME ══ */
   #home {
-    background: var(--charcoal);
-    color: var(--cream);
-    padding: 48px 32px;
-    justify-content: space-between;
+    background: linear-gradient(160deg, #FF5C5C 0%, #FF8C69 55%, #FFB347 100%);
+    color: white;
   }
-
-  .home-header { margin-bottom: 48px; }
-  .home-header .eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 16px;
-  }
-  .home-header h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(42px, 10vw, 64px);
-    font-weight: 300;
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-  }
-  .home-header h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
-
-  .programme-cards { flex: 1; display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
-
+  .home-inner { flex: 1; overflow-y: auto; padding: 56px 24px 32px; display: flex; flex-direction: column; }
+  .home-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; margin-bottom: 12px; }
+  .home-title { font-size: clamp(40px, 11vw, 60px); font-weight: 800; line-height: 1.05; margin-bottom: 40px; letter-spacing: -0.02em; }
+  .home-title em { font-style: normal; opacity: 0.55; }
+  .programme-list { display: flex; flex-direction: column; gap: 12px; flex: 1; }
   .programme-card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 2px;
-    padding: 24px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
+    background: rgba(255,255,255,0.18); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.3); border-radius: 20px;
+    padding: 22px 20px; cursor: pointer; transition: all 0.2s;
   }
-  .programme-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--accent);
-    transform: scaleY(0);
-    transition: transform 0.2s ease;
-  }
-  .programme-card:hover { background: rgba(255,255,255,0.08); }
-  .programme-card:hover::before { transform: scaleY(1); }
-  .programme-card:active { background: rgba(196,149,106,0.15); }
+  .programme-card:active { background: rgba(255,255,255,0.28); transform: scale(0.98); }
+  .pc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .pc-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.75; }
+  .pc-weeks { font-size: 11px; background: rgba(255,255,255,0.25); border-radius: 20px; padding: 3px 10px; font-weight: 600; }
+  .pc-name { font-size: 24px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .pc-desc { font-size: 13px; opacity: 0.72; font-weight: 500; }
+  .home-footer { font-size: 11px; opacity: 0.45; font-weight: 500; padding-top: 24px; letter-spacing: 0.05em; }
 
-  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-  .card-label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
+  .home-progress-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border: 1px solid rgba(255,255,255,0.3); border-radius: 16px;
+    background: rgba(255,255,255,0.15); color: white; cursor: pointer; width: 100%;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600;
+    margin-top: 14px; transition: all 0.15s; letter-spacing: 0.01em;
   }
-  .card-sessions {
-    font-size: 10px;
-    color: var(--light);
-    letter-spacing: 0.05em;
-  }
-  .card-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
-    font-weight: 300;
-    color: var(--cream);
-    margin-bottom: 8px;
-  }
-  .card-meta { font-size: 11px; color: var(--light); line-height: 1.6; }
+  .home-progress-btn:active { background: rgba(255,255,255,0.25); }
+  .hpb-left { display: flex; align-items: center; gap: 10px; }
+  .hpb-dot { width: 8px; height: 8px; border-radius: 50%; background: white; opacity: 0.8; }
+  .hpb-count { font-size: 13px; opacity: 0.75; font-weight: 600; }
 
-  .home-footer { font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; }
-
-  /* ── SESSION OVERVIEW ── */
-  #overview {
-    background: var(--warm-white);
-  }
-
+  /* ══ SHARED TOP BAR ══ */
   .top-bar {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 20px 24px;
-    border-bottom: 1px solid var(--border);
-    background: var(--warm-white);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+    background: var(--white); border-bottom: 1px solid var(--border); flex-shrink: 0;
   }
   .back-btn {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    width: 36px; height: 36px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--charcoal);
-    font-size: 16px;
-    transition: all 0.15s;
-    flex-shrink: 0;
+    width: 38px; height: 38px; border-radius: 12px; border: 1.5px solid var(--border);
+    background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center;
+    color: var(--ink); font-size: 18px; flex-shrink: 0; transition: all 0.15s; box-shadow: var(--shadow);
   }
-  .back-btn:hover { background: var(--cream); }
-  .top-bar-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 400;
-  }
+  .back-btn:active { background: var(--bg); }
+  .top-bar-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
 
-  .overview-body { flex: 1; overflow-y: auto; padding: 24px; }
+  /* ══ PICKER ══ */
+  #picker { background: var(--bg); }
+  .picker-body { flex: 1; overflow-y: auto; padding: 20px 20px 120px; }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink3); margin-bottom: 12px; }
 
-  .week-tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-  }
+  .week-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
   .week-tab {
-    padding: 8px 16px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    background: none;
-    cursor: pointer;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--mid);
-    letter-spacing: 0.05em;
-    transition: all 0.15s;
+    padding: 9px 18px; border: 1.5px solid var(--border); border-radius: 50px;
+    background: var(--white); cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px; font-weight: 600; color: var(--ink2); transition: all 0.15s;
+    box-shadow: var(--shadow);
   }
-  .week-tab.active {
-    background: var(--charcoal);
-    color: var(--cream);
-    border-color: var(--charcoal);
-  }
+  .week-tab.active { background: var(--ink); color: white; border-color: var(--ink); }
 
-  .session-selector {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 28px;
+  .session-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .session-card {
+    padding: 20px 16px; border: 2px solid var(--border); border-radius: 20px;
+    background: var(--white); cursor: pointer; transition: all 0.15s; text-align: left;
+    box-shadow: var(--shadow);
   }
-  .session-btn {
-    padding: 20px 16px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    background: var(--cream);
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.15s;
-  }
-  .session-btn:hover { border-color: var(--accent); }
-  .session-btn.selected {
-    border-color: var(--accent);
-    background: var(--accent-light);
-  }
-  .session-btn-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
-  .session-btn-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--charcoal); }
+  .session-card.selected { border-color: var(--coral); background: var(--coral-soft); }
+  .sc-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--coral); margin-bottom: 6px; }
+  .sc-name { font-size: 17px; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
 
-  .block-preview {
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    margin-bottom: 12px;
-    overflow: hidden;
+  .block-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .block-item {
+    padding: 16px 18px; border: 1.5px solid var(--border); border-radius: 16px;
+    background: var(--white); display: flex; justify-content: space-between; align-items: center;
+    box-shadow: var(--shadow);
   }
-  .block-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 18px;
-    background: var(--cream);
-    cursor: pointer;
-    border-bottom: 1px solid transparent;
-    transition: all 0.15s;
-  }
-  .block-header:hover { background: var(--accent-light); }
-  .block-header.open { border-bottom-color: var(--border); }
-  .block-header-left { }
-  .block-title { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--charcoal); font-weight: 500; }
-  .block-rounds { font-size: 10px; color: var(--mid); margin-top: 2px; }
-  .block-chevron { color: var(--mid); font-size: 12px; transition: transform 0.2s; }
-  .block-chevron.open { transform: rotate(180deg); }
+  .bi-name { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+  .bi-meta { font-size: 12px; color: var(--ink3); font-weight: 500; }
+  .bi-arrow { color: var(--ink3); font-size: 18px; font-weight: 300; }
 
-  .block-equipment {
-    padding: 12px 18px;
-    background: #FFF8F0;
-    border-bottom: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--accent);
+  .start-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; padding: 16px 20px 24px;
+    background: var(--white); border-top: 1px solid var(--border);
   }
-  .block-equipment strong { color: var(--charcoal); }
+  .start-bar button {
+    width: 100%; padding: 18px; background: linear-gradient(135deg, #FF5C5C, #FF8C69);
+    color: white; border: none; border-radius: 16px;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: opacity 0.15s; letter-spacing: 0.01em;
+    box-shadow: 0 4px 20px rgba(255,92,92,0.35);
+  }
+  .start-bar button:active { opacity: 0.88; }
 
-  .block-exercises { display: none; }
-  .block-exercises.open { display: block; }
-  .exercise-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 12px 18px;
-    border-bottom: 1px solid var(--border);
-    gap: 12px;
+  /* ══ BLOCK VIEW ══ */
+  #blockview { background: var(--bg); }
+  .bv-topbar {
+    display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+    background: var(--white); border-bottom: 1px solid var(--border); flex-shrink: 0;
   }
-  .exercise-row:last-child { border-bottom: none; }
-  .exercise-name { font-size: 12px; color: var(--charcoal); flex: 1; line-height: 1.4; }
-  .exercise-spec { font-size: 11px; color: var(--accent); text-align: right; white-space: nowrap; }
+  .bv-info { flex: 1; min-width: 0; }
+  .bv-session-name { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--coral); margin-bottom: 2px; }
+  .bv-block-name { font-size: 17px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em; }
 
-  .start-session-btn {
-    position: sticky;
-    bottom: 0;
-    margin: 0;
-    padding: 20px 24px;
-    background: var(--warm-white);
-    border-top: 1px solid var(--border);
+  .block-progress {
+    display: flex; gap: 5px; padding: 14px 20px;
+    background: var(--white); border-bottom: 1px solid var(--border); flex-shrink: 0; overflow-x: auto;
   }
-  .start-session-btn button {
-    width: 100%;
-    padding: 18px;
-    background: var(--charcoal);
-    color: var(--cream);
-    border: none;
-    border-radius: 2px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .start-session-btn button:hover { background: var(--accent); }
+  .bp-dot { flex: 1; height: 5px; border-radius: 10px; background: var(--border); transition: background 0.3s; min-width: 20px; }
+  .bp-dot.done { background: var(--green); }
+  .bp-dot.active { background: var(--coral); }
 
-  /* ── WORKOUT ── */
-  #workout {
-    background: var(--charcoal);
-    color: var(--cream);
-  }
+  .bv-body { flex: 1; overflow-y: auto; padding: 16px 16px 100px; }
 
-  .workout-top {
-    padding: 20px 24px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    align-items: center;
-    gap: 16px;
+  .equip-banner {
+    padding: 14px 16px; background: var(--coral-soft); border: 1.5px solid var(--coral-mid);
+    border-radius: 16px; margin-bottom: 16px;
   }
-  .workout-back {
-    background: none;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 2px;
-    width: 36px; height: 36px;
-    cursor: pointer;
+  .equip-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--coral); margin-bottom: 6px; }
+  .equip-items { font-size: 13px; color: var(--ink); line-height: 1.9; font-weight: 500; }
+
+  .rounds-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 14px; background: var(--white); border: 1.5px solid var(--border);
+    border-radius: 50px; font-size: 12px; font-weight: 600; color: var(--ink2); margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .rb-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); }
+
+  .ex-card {
+    border: 1.5px solid var(--border); border-radius: 18px; margin-bottom: 10px;
+    background: var(--white); overflow: hidden; transition: all 0.2s; box-shadow: var(--shadow);
+  }
+  .ex-card.completed { border-color: var(--green); background: var(--green-soft); opacity: 0.75; box-shadow: none; }
+  .ex-card.active-ex { border-color: var(--coral); box-shadow: 0 4px 20px rgba(255,92,92,0.15); }
+
+  .ex-main {
+    display: flex; align-items: flex-start; gap: 14px; padding: 16px;
+    cursor: pointer; transition: background 0.12s;
+  }
+  .ex-main:active { background: var(--bg); }
+
+  .ex-check {
+    width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all 0.2s; margin-top: 1px;
+  }
+  .ex-card.completed .ex-check { background: var(--green); border-color: var(--green); }
+  .ex-card.active-ex .ex-check { border-color: var(--coral); }
+  .check-icon { display: none; color: white; font-size: 14px; font-weight: 700; }
+  .ex-card.completed .check-icon { display: block; }
+
+  .ex-text { flex: 1; }
+  .ex-name { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 5px; line-height: 1.3; letter-spacing: -0.01em; }
+  .ex-card.completed .ex-name { text-decoration: line-through; color: var(--ink3); }
+  .ex-spec-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .ex-spec {
+    font-size: 12px; font-weight: 700; color: var(--coral);
+    background: var(--coral-soft); border-radius: 20px; padding: 3px 10px;
+  }
+  .ex-weight { font-size: 12px; font-weight: 500; color: var(--ink2); }
+  .ex-note { font-size: 12px; color: var(--ink2); font-style: italic; padding: 0 16px 14px 58px; line-height: 1.6; font-weight: 500; }
+
+  .ex-timer-section {
+    border-top: 1px solid var(--border); padding: 14px 16px; background: var(--bg); display: none;
+  }
+  .ex-card.active-ex .ex-timer-section { display: block; }
+  .timer-start-btn {
+    width: 100%; padding: 14px; background: linear-gradient(135deg, #FF5C5C, #FF8C69);
+    color: white; border: none; border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: opacity 0.15s; box-shadow: 0 3px 12px rgba(255,92,92,0.3);
+  }
+  .timer-start-btn:active { opacity: 0.85; }
+
+  /* ══ TIMER OVERLAY ══ */
+  #timerOverlay {
+    display: none; position: fixed; inset: 0; z-index: 100;
+    flex-direction: column; align-items: center; justify-content: center;
+    background: linear-gradient(160deg, #0F0F1A 0%, #1E1030 100%); color: white;
+  }
+  #timerOverlay.visible { display: flex; }
+
+  .to-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--coral); margin-bottom: 10px; opacity: 0.9; }
+  .to-exercise { font-size: clamp(22px, 6vw, 30px); font-weight: 800; text-align: center; margin-bottom: 44px; padding: 0 32px; line-height: 1.25; letter-spacing: -0.01em; }
+
+  .to-ring-wrap { position: relative; width: 210px; height: 210px; margin-bottom: 44px; }
+  .to-ring-svg { transform: rotate(-90deg); }
+  .to-ring-bg { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 10; }
+  .to-ring-fill { fill: none; stroke: var(--coral); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 0.9s linear, stroke 0.3s; }
+  .to-ring-fill.warning { stroke: #FFB347; }
+  .to-number {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 80px; font-weight: 800; line-height: 1; letter-spacing: -0.03em;
+  }
+  .to-number.warning { color: #FFB347; }
+
+  .to-countdown-overlay {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(160deg, #0F0F1A, #1E1030); border-radius: 50%;
+    font-size: 88px; font-weight: 800; color: var(--coral); transition: opacity 0.2s; letter-spacing: -0.03em;
+  }
+  .to-countdown-overlay.hidden { opacity: 0; pointer-events: none; }
+
+  .to-phase { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 36px; }
+
+  .to-controls { display: flex; gap: 12px; }
+  .to-btn {
+    padding: 14px 28px; border: 1.5px solid rgba(255,255,255,0.15); border-radius: 50px;
+    background: rgba(255,255,255,0.07); color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all 0.15s; letter-spacing: 0.02em;
+  }
+  .to-btn:active { background: rgba(255,255,255,0.15); }
+  .to-btn.primary { background: var(--coral); border-color: var(--coral); box-shadow: 0 4px 16px rgba(255,92,92,0.4); }
+  .to-btn.primary:active { opacity: 0.85; }
+
+  /* ══ BLOCK COMPLETE ══ */
+  #blockComplete {
+    display: none; position: fixed; inset: 0; z-index: 90;
+    flex-direction: column; align-items: center; justify-content: center;
+    background: var(--white); text-align: center; padding: 40px 28px;
+  }
+  #blockComplete.visible { display: flex; }
+  .bc-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, #FF5C5C, #FF8C69);
     display: flex; align-items: center; justify-content: center;
-    color: var(--cream);
-    font-size: 16px;
-    flex-shrink: 0;
+    font-size: 32px; margin-bottom: 24px;
+    box-shadow: 0 8px 28px rgba(255,92,92,0.3);
   }
-  .workout-progress-info { flex: 1; }
-  .workout-progress-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
-  .workout-progress-bar {
-    height: 2px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 1px;
-    overflow: hidden;
+  .bc-title { font-size: 40px; font-weight: 800; margin-bottom: 12px; line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); }
+  .bc-title em { font-style: normal; color: var(--coral); }
+  .bc-sub { font-size: 14px; color: var(--ink2); margin-bottom: 44px; line-height: 1.7; font-weight: 500; max-width: 300px; }
+  .bc-btn {
+    width: 100%; max-width: 340px; padding: 18px;
+    background: linear-gradient(135deg, #FF5C5C, #FF8C69); color: white;
+    border: none; border-radius: 16px; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 12px;
+    box-shadow: 0 4px 20px rgba(255,92,92,0.3); transition: opacity 0.15s;
   }
-  .workout-progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 1px;
-    transition: width 0.4s ease;
-  }
-
-  .workout-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 32px 24px;
-    overflow-y: auto;
+  .bc-btn:active { opacity: 0.88; }
+  .bc-btn.secondary {
+    background: none; color: var(--ink2); border: 1.5px solid var(--border);
+    box-shadow: none; font-size: 14px;
   }
 
-  .step-type {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 16px;
+  /* ══ SESSION COMPLETE ══ */
+  #sessionComplete {
+    background: linear-gradient(160deg, #FF5C5C 0%, #FF8C69 55%, #FFB347 100%);
+    color: white; align-items: center; justify-content: center; text-align: center; padding: 48px 28px;
   }
+  .sc-icon {
+    width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center; font-size: 36px;
+    margin: 0 auto 24px; border: 2px solid rgba(255,255,255,0.4);
+  }
+  .sc-title { font-size: 52px; font-weight: 800; line-height: 1.05; margin-bottom: 16px; letter-spacing: -0.02em; }
+  .sc-title em { font-style: normal; opacity: 0.6; }
+  .sc-sub { font-size: 14px; opacity: 0.8; line-height: 1.7; margin-bottom: 48px; font-weight: 500; }
+  .sc-home-btn {
+    padding: 16px 36px; border: 2px solid rgba(255,255,255,0.4); border-radius: 50px;
+    background: rgba(255,255,255,0.2); color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all 0.15s; display: inline-block; margin: 6px;
+    backdrop-filter: blur(4px);
+  }
+  .sc-home-btn:active { background: rgba(255,255,255,0.3); }
 
-  .step-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(36px, 9vw, 52px);
-    font-weight: 300;
-    line-height: 1.1;
-    margin-bottom: 24px;
-  }
+  /* ══ PROGRESS SCREEN ══ */
+  #progress { background: var(--bg); }
+  .progress-body { flex: 1; overflow-y: auto; padding: 20px 16px 60px; }
 
-  .step-spec {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 2px;
-    font-size: 13px;
-    color: var(--cream);
-    margin-bottom: 8px;
-    margin-right: 8px;
+  .prog-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 28px; }
+  .prog-stat {
+    padding: 18px 10px; background: var(--white); border: 1.5px solid var(--border);
+    border-radius: 18px; text-align: center; box-shadow: var(--shadow);
   }
-  .step-spec .spec-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .prog-stat-num { font-size: 34px; font-weight: 800; color: var(--coral); line-height: 1; margin-bottom: 5px; letter-spacing: -0.02em; }
+  .prog-stat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink3); }
 
-  .step-notes {
-    margin-top: 20px;
-    padding: 16px;
-    border-left: 2px solid var(--accent);
-    font-size: 12px;
-    color: var(--light);
-    line-height: 1.7;
-    font-style: italic;
+  .prog-week { margin-bottom: 24px; }
+  .prog-week-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 10px;
   }
+  .prog-week-title::after { content: ''; flex: 1; height: 1.5px; background: var(--border); border-radius: 2px; }
 
-  /* Equipment reminder */
-  .equipment-reminder {
-    margin-top: 24px;
-    padding: 16px;
-    background: rgba(196,149,106,0.12);
-    border: 1px solid rgba(196,149,106,0.3);
-    border-radius: 2px;
+  .prog-session-row {
+    display: flex; align-items: center; gap: 14px; padding: 16px;
+    border: 1.5px solid var(--border); border-radius: 16px; background: var(--white);
+    margin-bottom: 8px; box-shadow: var(--shadow);
   }
-  .equipment-reminder-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
-  .equipment-reminder-list { font-size: 12px; color: var(--cream); line-height: 1.8; }
+  .prog-session-row.done { border-color: var(--green); background: var(--green-soft); box-shadow: none; }
+  .prog-session-row.current { border-color: var(--coral); background: var(--coral-soft); }
 
-  /* Timer */
-  .timer-display {
-    margin: 32px 0;
-    text-align: center;
+  .psr-tick {
+    width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    font-size: 14px; color: transparent; transition: all 0.2s; font-weight: 700;
   }
-  .timer-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
-  .timer-number {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(72px, 20vw, 96px);
-    font-weight: 300;
-    line-height: 1;
-    color: var(--cream);
-    transition: color 0.3s;
-  }
-  .timer-number.warning { color: #E8845A; }
-  .timer-controls { display: flex; gap: 12px; justify-content: center; margin-top: 20px; }
-  .timer-btn {
-    padding: 12px 28px;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 2px;
-    background: none;
-    color: var(--cream);
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .timer-btn:hover { background: rgba(255,255,255,0.08); }
-  .timer-btn.primary { background: var(--accent); border-color: var(--accent); }
-  .timer-btn.primary:hover { background: #D4A57A; }
+  .prog-session-row.done .psr-tick { background: var(--green); border-color: var(--green); color: white; }
+  .prog-session-row.current .psr-tick { border-color: var(--coral); }
 
-  /* Round counter */
-  .round-indicator {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-  }
-  .round-dot {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px;
-    color: var(--light);
-    transition: all 0.2s;
-  }
-  .round-dot.done { background: var(--success); border-color: var(--success); color: white; }
-  .round-dot.current { border-color: var(--accent); color: var(--accent); }
+  .psr-info { flex: 1; }
+  .psr-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+  .prog-session-row.done .psr-name { color: var(--ink2); }
+  .psr-meta { font-size: 12px; font-weight: 500; color: var(--ink3); }
+  .prog-session-row.done .psr-meta { color: var(--green); font-weight: 600; }
+  .prog-session-row.current .psr-meta { color: var(--coral); font-weight: 600; }
 
-  /* Next preview */
-  .next-preview {
-    margin-top: auto;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .psr-badge {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 5px 11px; border-radius: 50px; flex-shrink: 0;
   }
-  .next-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid); margin-bottom: 4px; }
-  .next-name { font-size: 13px; color: var(--light); }
+  .prog-session-row.done .psr-badge { background: var(--green); color: white; }
+  .prog-session-row.current .psr-badge { background: var(--coral); color: white; }
+  .prog-session-row:not(.done):not(.current) .psr-badge { background: var(--border); color: var(--ink3); }
 
-  .next-btn {
-    padding: 14px 28px;
-    background: var(--accent);
-    color: var(--cream);
-    border: none;
-    border-radius: 2px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.15s;
-    white-space: nowrap;
-    flex-shrink: 0;
+  .prog-reset-btn {
+    margin-top: 32px; width: 100%; padding: 16px; background: var(--white);
+    border: 1.5px solid var(--border); border-radius: 14px; color: var(--ink3);
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all 0.15s; box-shadow: var(--shadow);
   }
-  .next-btn:hover { background: #D4A57A; }
-  .next-btn:disabled { background: var(--mid); cursor: default; }
-
-  /* Complete screen */
-  #complete {
-    background: var(--charcoal);
-    color: var(--cream);
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 48px 32px;
-  }
-  .complete-icon { font-size: 48px; margin-bottom: 24px; }
-  .complete-title { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; margin-bottom: 16px; }
-  .complete-title em { color: var(--accent); font-style: italic; }
-  .complete-sub { color: var(--light); font-size: 12px; line-height: 1.7; margin-bottom: 40px; }
-  .complete-home-btn {
-    padding: 16px 40px;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 2px;
-    background: none;
-    color: var(--cream);
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .complete-home-btn:hover { background: rgba(255,255,255,0.08); }
+  .prog-reset-btn:active { background: var(--bg); }
 </style>
 </head>
 <body>
 
-<!-- ══════════════ HOME ══════════════ -->
+<!-- HOME -->
 <div id="home" class="screen active">
-  <div>
-    <div class="home-header">
-      <div class="eyebrow">My Training</div>
-      <h1>Move<br><em>Well</em></h1>
-    </div>
-    <div class="programme-cards" id="programmeCards"></div>
+  <div class="home-inner">
+    <div class="home-eyebrow">My Training</div>
+    <div class="home-title">Move<br><em>Well</em></div>
+    <div class="programme-list" id="programmeList"></div>
+    <button class="home-progress-btn" onclick="showProgressScreen()">
+      <div class="hpb-left"><div class="hpb-dot"></div>My Progress</div>
+      <div class="hpb-count" id="homeProgressCount"></div>
+    </button>
+    <div class="home-footer">4-WEEK PROGRAMME · 2 SESSIONS / WEEK</div>
   </div>
-  <div class="home-footer">4-WEEK PROGRAMME · 2 SESSIONS / WEEK</div>
 </div>
 
-<!-- ══════════════ OVERVIEW ══════════════ -->
-<div id="overview" class="screen">
+<!-- PROGRESS SCREEN -->
+<div id="progress" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="showScreen('home')">←</button>
-    <div class="top-bar-title" id="overviewTitle"></div>
+    <div class="top-bar-title">My Progress</div>
   </div>
-  <div class="overview-body">
-    <div class="week-tabs" id="weekTabs"></div>
-    <div class="session-selector" id="sessionSelector"></div>
-    <div id="blockPreviews"></div>
-  </div>
-  <div class="start-session-btn">
-    <button onclick="startWorkout()">Begin Session →</button>
-  </div>
+  <div class="progress-body" id="progressBody"></div>
 </div>
 
-<!-- ══════════════ WORKOUT ══════════════ -->
-<div id="workout" class="screen">
-  <div class="workout-top">
-    <button class="workout-back" onclick="confirmExit()">←</button>
-    <div class="workout-progress-info">
-      <div class="workout-progress-label" id="workoutProgressLabel"></div>
-      <div class="workout-progress-bar"><div class="workout-progress-fill" id="workoutProgressFill"></div></div>
+<!-- SESSION PICKER -->
+<div id="picker" class="screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <div class="top-bar-title" id="pickerTitle"></div>
+  </div>
+  <div class="picker-body">
+    <div class="section-label">Select Week</div>
+    <div class="week-tabs" id="weekTabs"></div>
+    <div class="section-label">Select Session</div>
+    <div class="session-grid" id="sessionGrid"></div>
+    <div id="blockListWrap" style="display:none">
+      <div class="section-label" style="margin-bottom:12px">Session Overview</div>
+      <div class="block-list" id="blockListPreview"></div>
     </div>
   </div>
-  <div class="workout-body" id="workoutBody"></div>
+  <div class="start-bar">
+    <button onclick="startSession()">Begin Session →</button>
+  </div>
 </div>
 
-<!-- ══════════════ COMPLETE ══════════════ -->
-<div id="complete" class="screen">
-  <div class="complete-icon">✦</div>
-  <div class="complete-title">Well<br><em>done.</em></div>
-  <div class="complete-sub" id="completeSub"></div>
-  <button class="complete-home-btn" onclick="showScreen('home')">Back to Home</button>
+<!-- BLOCK VIEW -->
+<div id="blockview" class="screen">
+  <div class="bv-topbar">
+    <button class="back-btn" onclick="confirmExitBlock()">←</button>
+    <div class="bv-info">
+      <div class="bv-session-name" id="bvSessionName"></div>
+      <div class="bv-block-name" id="bvBlockName"></div>
+    </div>
+  </div>
+  <div class="block-progress" id="blockProgressDots"></div>
+  <div class="bv-body" id="bvBody"></div>
+</div>
+
+<!-- SESSION COMPLETE -->
+<div id="sessionComplete" class="screen">
+  <div class="sc-icon">✦</div>
+  <div class="sc-title">Well<br><em>done.</em></div>
+  <div class="sc-sub" id="scSub"></div>
+  <button class="sc-home-btn" onclick="showProgressScreen()" style="margin-bottom:14px;background:var(--accent);border-color:var(--accent);">View My Progress →</button>
+  <button class="sc-home-btn" onclick="showScreen('home')">Back to Home</button>
+</div>
+
+<!-- TIMER OVERLAY -->
+<div id="timerOverlay">
+  <div class="to-label" id="toLabel"></div>
+  <div class="to-exercise" id="toExercise"></div>
+  <div class="to-ring-wrap">
+    <svg class="to-ring-svg" width="200" height="200" viewBox="0 0 200 200">
+      <circle class="to-ring-bg" cx="100" cy="100" r="88"/>
+      <circle class="to-ring-fill" id="toRingFill" cx="100" cy="100" r="88"/>
+    </svg>
+    <div class="to-number" id="toNumber">0</div>
+    <div class="to-countdown-overlay hidden" id="toCountdown"></div>
+  </div>
+  <div class="to-phase" id="toPhase"></div>
+  <div class="to-controls">
+    <button class="to-btn" onclick="closeTimer()">✕ Exit</button>
+    <button class="to-btn primary" id="toPauseBtn" onclick="toggleTimerPause()">Pause</button>
+  </div>
+</div>
+
+<!-- BLOCK COMPLETE -->
+<div id="blockComplete">
+  <div class="bc-icon">✓</div>
+  <div class="bc-title" id="bcTitle"></div>
+  <div class="bc-sub" id="bcSub"></div>
+  <button class="bc-btn" id="bcNextBtn" onclick="goNextBlock()"></button>
+  <button class="bc-btn secondary" onclick="hideBlockComplete()">← Review Block</button>
 </div>
 
 <script>
 // ══════════════════════════════════════════
-// PROGRAMME DATA
+// DATA
 // ══════════════════════════════════════════
 const programmes = [
   {
-    id: "programme_1",
-    name: "Foundation",
-    label: "Weeks 1–4",
-    description: "Full body strength & core. 2×/week.",
+    id: "p1", name: "Foundation", label: "Weeks 1–4", description: "Full body strength & core. 2×/week.",
     weeks: [
-      {
-        week: 1,
-        sessions: [
-          {
-            id: "session_a",
-            label: "Session A",
-            name: "Upper Focus",
-            blocks: [
-              {
-                name: "Warm-Up",
-                rounds: null,
-                equipment: [],
-                exercises: [
-                  { name: "Cat-cow", spec: "10 reps", weight: "Bodyweight", timer: null },
-                  { name: "Thread the needle", spec: "8 reps each side", weight: "Bodyweight", timer: null },
-                  { name: "Arm circles + shoulder rolls", spec: "30 seconds", weight: "Bodyweight", timer: 30 },
-                  { name: "Bodyweight squats", spec: "10 reps", weight: "Bodyweight", timer: null }
-                ],
-                rest: 0
-              },
-              {
-                name: "Block 1 — Upper Body Strength",
-                rounds: 3,
-                equipment: ["6kg dumbbells ×2", "8kg dumbbell ×1"],
-                exercises: [
-                  { name: "Dumbbell chest press", spec: "15 reps", weight: "6kg each hand", timer: null },
-                  { name: "Single-arm dumbbell row", spec: "15 reps each side", weight: "8kg", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Block 2 — Shoulders & Arms",
-                rounds: 3,
-                equipment: ["3kg dumbbells ×2", "5kg dumbbells ×2", "5kg dumbbell ×1"],
-                exercises: [
-                  { name: "Lateral raise", spec: "15 reps", weight: "3kg each hand", timer: null, note: "Keep lighter than you think — this is intentional for lean arms" },
-                  { name: "Bicep curl", spec: "15 reps", weight: "5kg each hand", timer: null },
-                  { name: "Tricep overhead extension", spec: "15 reps", weight: "5kg single dumbbell held with both hands", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Block 3 — Core",
-                rounds: 3,
-                equipment: ["Medium resistance band", "Mat"],
-                exercises: [
-                  { name: "Dead bug", spec: "10 reps each side", weight: "Bodyweight", timer: null },
-                  { name: "Pallof press", spec: "12 reps each side", weight: "Medium resistance band", timer: null },
-                  { name: "Side plank hold", spec: "20 seconds each side", weight: "Bodyweight", timer: 20 }
-                ],
-                rest: 30
-              },
-              {
-                name: "Block 4 — Functional Finisher",
-                rounds: 2,
-                equipment: ["Light resistance band", "6–8kg dumbbells ×2"],
-                exercises: [
-                  { name: "Resistance band pull-apart", spec: "20 reps", weight: "Light band", timer: null },
-                  { name: "Dumbbell hip hinge", spec: "15 reps", weight: "6–8kg each hand", timer: null, note: "Focus on form, not load. Soft knees, hinge at the hip, neutral spine." },
-                  { name: "Glute bridge", spec: "20 reps", weight: "Bodyweight", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Cool-Down",
-                rounds: null,
-                equipment: ["Mat"],
-                exercises: [
-                  { name: "Chest opener stretch", spec: "30 seconds", weight: "Bodyweight", timer: 30 },
-                  { name: "Lat stretch", spec: "30 seconds each side", weight: "Bodyweight", timer: 30 },
-                  { name: "Child's pose", spec: "45 seconds", weight: "Bodyweight", timer: 45 },
-                  { name: "Hip flexor stretch", spec: "30 seconds each side", weight: "Bodyweight", timer: 30 }
-                ],
-                rest: 0
-              }
-            ]
-          },
-          {
-            id: "session_b",
-            label: "Session B",
-            name: "Lower & Posterior",
-            blocks: [
-              {
-                name: "Warm-Up",
-                rounds: null,
-                equipment: ["Light resistance band", "Mat"],
-                exercises: [
-                  { name: "Hip circles", spec: "10 each direction", weight: "Bodyweight", timer: null },
-                  { name: "Glute bridges", spec: "10 reps", weight: "Bodyweight", timer: null },
-                  { name: "Banded clamshells", spec: "10 reps each side", weight: "Light band", timer: null },
-                  { name: "Inchworm", spec: "5 reps", weight: "Bodyweight", timer: null },
-                  { name: "World's greatest stretch", spec: "5 each side", weight: "Bodyweight", timer: null }
-                ],
-                rest: 0
-              },
-              {
-                name: "Block 1 — Lower Body Activation",
-                rounds: 3,
-                equipment: ["Light resistance band", "Mat"],
-                exercises: [
-                  { name: "Bodyweight squat with 3-second pause", spec: "15 reps", weight: "Bodyweight", timer: null, note: "Hold at the bottom for 3 full seconds before rising. Control is the goal." },
-                  { name: "Lateral band walk", spec: "15 steps each direction", weight: "Light resistance band", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Block 2 — Glutes & Hips",
-                rounds: 3,
-                equipment: ["Light resistance band", "Light-medium resistance band", "Mat"],
-                exercises: [
-                  { name: "Single-leg glute bridge", spec: "15 reps each side", weight: "Bodyweight", timer: null },
-                  { name: "Resistance band kickback", spec: "15 reps each side", weight: "Light-medium band", timer: null },
-                  { name: "Donkey kick with band", spec: "15 reps each side", weight: "Light band", timer: null },
-                  { name: "Clamshell", spec: "15 reps each side", weight: "Light band", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Block 3 — Core",
-                rounds: 3,
-                equipment: ["4kg dumbbell ×1", "Mat"],
-                exercises: [
-                  { name: "Bird dog", spec: "10 reps each side", weight: "Bodyweight", timer: null },
-                  { name: "Hollow body hold", spec: "20 seconds", weight: "Bodyweight", timer: 20 },
-                  { name: "Russian twist", spec: "20 reps", weight: "4kg (or bodyweight if core fatigues)", timer: null }
-                ],
-                rest: 30
-              },
-              {
-                name: "Block 4 — Upper Body Pull",
-                rounds: 2,
-                equipment: ["Medium resistance band", "8kg dumbbells ×2"],
-                exercises: [
-                  { name: "Resistance band face pull", spec: "20 reps", weight: "Medium resistance band", timer: null },
-                  { name: "Dumbbell bent-over row", spec: "15 reps", weight: "8kg each hand", timer: null },
-                  { name: "Plank shoulder taps", spec: "20 reps", weight: "Bodyweight", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Cool-Down",
-                rounds: null,
-                equipment: ["Mat"],
-                exercises: [
-                  { name: "Figure four stretch", spec: "45 seconds each side", weight: "Bodyweight", timer: 45 },
-                  { name: "Seated forward fold", spec: "45 seconds", weight: "Bodyweight", timer: 45 },
-                  { name: "Pigeon pose", spec: "45 seconds each side", weight: "Bodyweight", timer: 45 },
-                  { name: "Supine twist", spec: "30 seconds each side", weight: "Bodyweight", timer: 30 }
-                ],
-                rest: 0
-              }
-            ]
-          }
-        ]
-      },
-      {
-        week: 2,
-        sessions: ["session_a", "session_b"] // same as week 1
-      },
-      {
-        week: 3,
-        progression: "+2 reps on most exercises, or add 4th round to Blocks 1 & 2. Slightly increase weight where comfortable.",
-        sessions: [
-          {
-            id: "session_a",
-            label: "Session A",
-            name: "Upper Focus",
-            blocks: [
-              {
-                name: "Warm-Up",
-                rounds: null,
-                equipment: [],
-                exercises: [
-                  { name: "Cat-cow", spec: "10 reps", weight: "Bodyweight", timer: null },
-                  { name: "Thread the needle", spec: "8 reps each side", weight: "Bodyweight", timer: null },
-                  { name: "Arm circles + shoulder rolls", spec: "30 seconds", weight: "Bodyweight", timer: 30 },
-                  { name: "Bodyweight squats", spec: "10 reps", weight: "Bodyweight", timer: null }
-                ],
-                rest: 0
-              },
-              {
-                name: "Block 1 — Upper Body Strength",
-                rounds: 4,
-                equipment: ["7–8kg dumbbells ×2", "10kg dumbbell ×1"],
-                exercises: [
-                  { name: "Dumbbell chest press", spec: "17 reps", weight: "7–8kg each hand", timer: null },
-                  { name: "Single-arm dumbbell row", spec: "17 reps each side", weight: "10kg", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Block 2 — Shoulders & Arms",
-                rounds: 4,
-                equipment: ["4kg dumbbells ×2", "6kg dumbbells ×2", "6kg dumbbell ×1"],
-                exercises: [
-                  { name: "Lateral raise", spec: "17 reps", weight: "4kg each hand", timer: null },
-                  { name: "Bicep curl", spec: "17 reps", weight: "6kg each hand", timer: null },
-                  { name: "Tricep overhead extension", spec: "17 reps", weight: "6kg single dumbbell", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Block 3 — Core",
-                rounds: 3,
-                equipment: ["Medium resistance band", "Mat"],
-                exercises: [
-                  { name: "Dead bug", spec: "12 reps each side", weight: "Bodyweight", timer: null },
-                  { name: "Pallof press", spec: "15 reps each side", weight: "Medium resistance band", timer: null },
-                  { name: "Side plank hold", spec: "25 seconds each side", weight: "Bodyweight", timer: 25 }
-                ],
-                rest: 30
-              },
-              {
-                name: "Block 4 — Functional Finisher",
-                rounds: 2,
-                equipment: ["Light resistance band", "8–10kg dumbbells ×2"],
-                exercises: [
-                  { name: "Resistance band pull-apart", spec: "20 reps", weight: "Light band", timer: null },
-                  { name: "Dumbbell hip hinge", spec: "17 reps", weight: "8–10kg each hand", timer: null },
-                  { name: "Glute bridge", spec: "20 reps", weight: "Bodyweight", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Cool-Down",
-                rounds: null,
-                equipment: ["Mat"],
-                exercises: [
-                  { name: "Chest opener stretch", spec: "30 seconds", weight: "Bodyweight", timer: 30 },
-                  { name: "Lat stretch", spec: "30 seconds each side", weight: "Bodyweight", timer: 30 },
-                  { name: "Child's pose", spec: "45 seconds", weight: "Bodyweight", timer: 45 },
-                  { name: "Hip flexor stretch", spec: "30 seconds each side", weight: "Bodyweight", timer: 30 }
-                ],
-                rest: 0
-              }
-            ]
-          },
-          {
-            id: "session_b",
-            label: "Session B",
-            name: "Lower & Posterior",
-            blocks: [
-              {
-                name: "Warm-Up",
-                rounds: null,
-                equipment: ["Light resistance band", "Mat"],
-                exercises: [
-                  { name: "Hip circles", spec: "10 each direction", weight: "Bodyweight", timer: null },
-                  { name: "Glute bridges", spec: "10 reps", weight: "Bodyweight", timer: null },
-                  { name: "Banded clamshells", spec: "10 reps each side", weight: "Light band", timer: null },
-                  { name: "Inchworm", spec: "5 reps", weight: "Bodyweight", timer: null },
-                  { name: "World's greatest stretch", spec: "5 each side", weight: "Bodyweight", timer: null }
-                ],
-                rest: 0
-              },
-              {
-                name: "Block 1 — Lower Body Activation",
-                rounds: 4,
-                equipment: ["Light resistance band", "Mat"],
-                exercises: [
-                  { name: "Bodyweight squat with 3-second pause", spec: "17 reps", weight: "Bodyweight", timer: null },
-                  { name: "Lateral band walk", spec: "17 steps each direction", weight: "Light resistance band", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Block 2 — Glutes & Hips",
-                rounds: 4,
-                equipment: ["Light resistance band", "Light-medium resistance band", "Mat"],
-                exercises: [
-                  { name: "Single-leg glute bridge", spec: "17 reps each side", weight: "Bodyweight", timer: null },
-                  { name: "Resistance band kickback", spec: "17 reps each side", weight: "Light-medium band", timer: null },
-                  { name: "Donkey kick with band", spec: "17 reps each side", weight: "Light band", timer: null },
-                  { name: "Clamshell", spec: "17 reps each side", weight: "Light band", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Block 3 — Core",
-                rounds: 3,
-                equipment: ["5kg dumbbell ×1", "Mat"],
-                exercises: [
-                  { name: "Bird dog", spec: "12 reps each side", weight: "Bodyweight", timer: null },
-                  { name: "Hollow body hold", spec: "25 seconds", weight: "Bodyweight", timer: 25 },
-                  { name: "Russian twist", spec: "22 reps", weight: "5kg", timer: null }
-                ],
-                rest: 30
-              },
-              {
-                name: "Block 4 — Upper Body Pull",
-                rounds: 2,
-                equipment: ["Medium resistance band", "10kg dumbbells ×2"],
-                exercises: [
-                  { name: "Resistance band face pull", spec: "22 reps", weight: "Medium resistance band", timer: null },
-                  { name: "Dumbbell bent-over row", spec: "17 reps", weight: "10kg each hand", timer: null },
-                  { name: "Plank shoulder taps", spec: "22 reps", weight: "Bodyweight", timer: null }
-                ],
-                rest: 45
-              },
-              {
-                name: "Cool-Down",
-                rounds: null,
-                equipment: ["Mat"],
-                exercises: [
-                  { name: "Figure four stretch", spec: "45 seconds each side", weight: "Bodyweight", timer: 45 },
-                  { name: "Seated forward fold", spec: "45 seconds", weight: "Bodyweight", timer: 45 },
-                  { name: "Pigeon pose", spec: "45 seconds each side", weight: "Bodyweight", timer: 45 },
-                  { name: "Supine twist", spec: "30 seconds each side", weight: "Bodyweight", timer: 30 }
-                ],
-                rest: 0
-              }
-            ]
-          }
-        ]
-      },
-      {
-        week: 4,
-        sessions: ["session_a_w3", "session_b_w3"] // same as week 3
-      }
+      { week: 1, sessions: ["A","B"] },
+      { week: 2, sessions: ["A","B"] },
+      { week: 3, sessions: ["A3","B3"] },
+      { week: 4, sessions: ["A3","B3"] }
     ]
   }
 ];
 
-// ══════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════
-let state = {
-  programme: null,
-  week: 0,
-  session: null,
-  steps: [],       // flat list of all steps
-  stepIndex: 0,
-  round: 1,
-  timerInterval: null,
-  timerSeconds: 0,
-  timerRunning: false,
-  stopwatchSeconds: 0
+const sessions = {
+  A: {
+    id:"A", label:"Session A", name:"Upper Focus",
+    blocks:[
+      {
+        name:"Warm-Up", rounds:null, rest:0,
+        equipment:[],
+        exercises:[
+          {name:"Cat-cow", spec:"10 reps", weight:"Bodyweight", timer:null},
+          {name:"Thread the needle", spec:"8 reps each side", weight:"Bodyweight", timer:null},
+          {name:"Arm circles + shoulder rolls", spec:"30 seconds", weight:"Bodyweight", timer:30},
+          {name:"Bodyweight squats", spec:"10 reps", weight:"Bodyweight", timer:null}
+        ]
+      },
+      {
+        name:"Block 1 — Upper Body Strength", rounds:3, rest:45,
+        equipment:["6kg dumbbells ×2","8kg dumbbell ×1"],
+        exercises:[
+          {name:"Dumbbell chest press", spec:"15 reps", weight:"6kg each hand", timer:null},
+          {name:"Single-arm dumbbell row", spec:"15 reps each side", weight:"8kg", timer:null}
+        ]
+      },
+      {
+        name:"Block 2 — Shoulders & Arms", rounds:3, rest:45,
+        equipment:["3kg dumbbells ×2","5kg dumbbells ×2","5kg dumbbell ×1"],
+        exercises:[
+          {name:"Lateral raise", spec:"15 reps", weight:"3kg each hand", timer:null, note:"Keep lighter than you think — intentional for lean arms"},
+          {name:"Bicep curl", spec:"15 reps", weight:"5kg each hand", timer:null},
+          {name:"Tricep overhead extension", spec:"15 reps", weight:"5kg single dumbbell both hands", timer:null}
+        ]
+      },
+      {
+        name:"Cardio Burst", rounds:2, rest:20,
+        equipment:[],
+        exercises:[
+          {name:"Step touch side to side", spec:"45 seconds", weight:"Bodyweight", timer:45, note:"Wide steps, swing arms — keep it rhythmic and continuous"},
+          {name:"Marching in place with high knees", spec:"45 seconds", weight:"Bodyweight", timer:45},
+          {name:"Modified jumping jacks (low impact)", spec:"45 seconds", weight:"Bodyweight", timer:45, note:"Step one foot out at a time instead of jumping both — same arm movement"}
+        ]
+      },
+      {
+        name:"Block 3 — Core", rounds:3, rest:30,
+        equipment:["Medium resistance band","Mat"],
+        exercises:[
+          {name:"Dead bug", spec:"10 reps each side", weight:"Bodyweight", timer:null},
+          {name:"Pallof press", spec:"12 reps each side", weight:"Medium resistance band", timer:null},
+          {name:"Side plank hold", spec:"20 seconds each side", weight:"Bodyweight", timer:20}
+        ]
+      },
+      {
+        name:"Block 4 — Functional Finisher", rounds:2, rest:45,
+        equipment:["Light resistance band","6–8kg dumbbells ×2"],
+        exercises:[
+          {name:"Resistance band pull-apart", spec:"20 reps", weight:"Light band", timer:null},
+          {name:"Dumbbell hip hinge", spec:"15 reps", weight:"6–8kg each hand", timer:null, note:"Focus on form. Soft knees, hinge at the hip, neutral spine."},
+          {name:"Glute bridge", spec:"20 reps", weight:"Bodyweight", timer:null}
+        ]
+      },
+      {
+        name:"Cardio Finisher", rounds:1, rest:0,
+        equipment:[],
+        exercises:[
+          {name:"Step touch side to side", spec:"60 seconds", weight:"Bodyweight", timer:60},
+          {name:"Marching in place", spec:"45 seconds", weight:"Bodyweight", timer:45},
+          {name:"Modified jumping jacks", spec:"60 seconds", weight:"Bodyweight", timer:60},
+          {name:"Step touch side to side", spec:"60 seconds", weight:"Bodyweight", timer:60, note:"Final push — keep the arms going, breathe through it"}
+        ]
+      },
+      {
+        name:"Cool-Down", rounds:null, rest:0,
+        equipment:["Mat"],
+        exercises:[
+          {name:"Chest opener stretch", spec:"30 seconds each side", weight:"Bodyweight", timer:30},
+          {name:"Lat stretch", spec:"30 seconds each side", weight:"Bodyweight", timer:30},
+          {name:"Child's pose", spec:"45 seconds", weight:"Bodyweight", timer:45},
+          {name:"Hip flexor stretch", spec:"30 seconds each side", weight:"Bodyweight", timer:30}
+        ]
+      }
+    ]
+  },
+  B: {
+    id:"B", label:"Session B", name:"Lower & Posterior",
+    blocks:[
+      {
+        name:"Warm-Up", rounds:null, rest:0,
+        equipment:["Light resistance band","Mat"],
+        exercises:[
+          {name:"Hip circles", spec:"10 each direction", weight:"Bodyweight", timer:null},
+          {name:"Glute bridges", spec:"10 reps", weight:"Bodyweight", timer:null},
+          {name:"Banded clamshells", spec:"10 reps each side", weight:"Light band", timer:null},
+          {name:"Inchworm", spec:"5 reps", weight:"Bodyweight", timer:null},
+          {name:"World's greatest stretch", spec:"5 each side", weight:"Bodyweight", timer:null}
+        ]
+      },
+      {
+        name:"Block 1 — Lower Body Activation", rounds:3, rest:45,
+        equipment:["Light resistance band","Mat"],
+        exercises:[
+          {name:"Bodyweight squat with 3-second pause", spec:"15 reps", weight:"Bodyweight", timer:null, note:"Hold at the bottom for 3 full seconds. Control is the goal."},
+          {name:"Lateral band walk", spec:"15 steps each direction", weight:"Light resistance band", timer:null}
+        ]
+      },
+      {
+        name:"Block 2 — Glutes & Hips", rounds:3, rest:45,
+        equipment:["Light resistance band","Light-medium resistance band","Mat"],
+        exercises:[
+          {name:"Single-leg glute bridge", spec:"15 reps each side", weight:"Bodyweight", timer:null},
+          {name:"Resistance band kickback", spec:"15 reps each side", weight:"Light-medium band", timer:null},
+          {name:"Donkey kick with band", spec:"15 reps each side", weight:"Light band", timer:null},
+          {name:"Clamshell", spec:"15 reps each side", weight:"Light band", timer:null}
+        ]
+      },
+      {
+        name:"Cardio Burst", rounds:2, rest:20,
+        equipment:[],
+        exercises:[
+          {name:"Step touch side to side", spec:"45 seconds", weight:"Bodyweight", timer:45, note:"Wide steps, pump the arms — keep moving continuously"},
+          {name:"Marching in place with high knees", spec:"45 seconds", weight:"Bodyweight", timer:45},
+          {name:"Modified jumping jacks (low impact)", spec:"45 seconds", weight:"Bodyweight", timer:45, note:"Step one foot out at a time — same arm movement as regular jacks"}
+        ]
+      },
+      {
+        name:"Block 3 — Core", rounds:3, rest:30,
+        equipment:["4kg dumbbell ×1","Mat"],
+        exercises:[
+          {name:"Bird dog", spec:"10 reps each side", weight:"Bodyweight", timer:null},
+          {name:"Hollow body hold", spec:"20 seconds", weight:"Bodyweight", timer:20},
+          {name:"Russian twist", spec:"20 reps", weight:"4kg (or bodyweight if fatigued)", timer:null}
+        ]
+      },
+      {
+        name:"Block 4 — Upper Body Pull", rounds:2, rest:45,
+        equipment:["Medium resistance band","8kg dumbbells ×2"],
+        exercises:[
+          {name:"Resistance band face pull", spec:"20 reps", weight:"Medium resistance band", timer:null},
+          {name:"Dumbbell bent-over row", spec:"15 reps", weight:"8kg each hand", timer:null},
+          {name:"Plank shoulder taps", spec:"20 reps", weight:"Bodyweight", timer:null}
+        ]
+      },
+      {
+        name:"Cardio Finisher", rounds:1, rest:0,
+        equipment:[],
+        exercises:[
+          {name:"Marching in place with high knees", spec:"60 seconds", weight:"Bodyweight", timer:60},
+          {name:"Step touch side to side", spec:"45 seconds", weight:"Bodyweight", timer:45},
+          {name:"Modified jumping jacks", spec:"60 seconds", weight:"Bodyweight", timer:60},
+          {name:"Marching in place", spec:"60 seconds", weight:"Bodyweight", timer:60, note:"Final push — keep the pace, breathe through it"}
+        ]
+      },
+      {
+        name:"Cool-Down", rounds:null, rest:0,
+        equipment:["Mat"],
+        exercises:[
+          {name:"Figure four stretch", spec:"45 seconds each side", weight:"Bodyweight", timer:45},
+          {name:"Seated forward fold", spec:"45 seconds", weight:"Bodyweight", timer:45},
+          {name:"Pigeon pose", spec:"45 seconds each side", weight:"Bodyweight", timer:45},
+          {name:"Supine twist", spec:"30 seconds each side", weight:"Bodyweight", timer:30}
+        ]
+      }
+    ]
+  },
+  A3: {
+    id:"A3", label:"Session A", name:"Upper Focus",
+    blocks:[
+      {
+        name:"Warm-Up", rounds:null, rest:0,
+        equipment:[],
+        exercises:[
+          {name:"Cat-cow", spec:"10 reps", weight:"Bodyweight", timer:null},
+          {name:"Thread the needle", spec:"8 reps each side", weight:"Bodyweight", timer:null},
+          {name:"Arm circles + shoulder rolls", spec:"30 seconds", weight:"Bodyweight", timer:30},
+          {name:"Bodyweight squats", spec:"10 reps", weight:"Bodyweight", timer:null}
+        ]
+      },
+      {
+        name:"Block 1 — Upper Body Strength", rounds:4, rest:45,
+        equipment:["7–8kg dumbbells ×2","10kg dumbbell ×1"],
+        exercises:[
+          {name:"Dumbbell chest press", spec:"17 reps", weight:"7–8kg each hand", timer:null},
+          {name:"Single-arm dumbbell row", spec:"17 reps each side", weight:"10kg", timer:null}
+        ]
+      },
+      {
+        name:"Block 2 — Shoulders & Arms", rounds:4, rest:45,
+        equipment:["4kg dumbbells ×2","6kg dumbbells ×2","6kg dumbbell ×1"],
+        exercises:[
+          {name:"Lateral raise", spec:"17 reps", weight:"4kg each hand", timer:null},
+          {name:"Bicep curl", spec:"17 reps", weight:"6kg each hand", timer:null},
+          {name:"Tricep overhead extension", spec:"17 reps", weight:"6kg single dumbbell", timer:null}
+        ]
+      },
+      {
+        name:"Cardio Burst", rounds:2, rest:20,
+        equipment:[],
+        exercises:[
+          {name:"Step touch side to side", spec:"50 seconds", weight:"Bodyweight", timer:50, note:"Wide steps, swing arms — keep it rhythmic and continuous"},
+          {name:"Marching in place with high knees", spec:"50 seconds", weight:"Bodyweight", timer:50},
+          {name:"Modified jumping jacks (low impact)", spec:"50 seconds", weight:"Bodyweight", timer:50, note:"Step one foot out at a time — same arm movement as regular jacks"}
+        ]
+      },
+      {
+        name:"Block 3 — Core", rounds:3, rest:30,
+        equipment:["Medium resistance band","Mat"],
+        exercises:[
+          {name:"Dead bug", spec:"12 reps each side", weight:"Bodyweight", timer:null},
+          {name:"Pallof press", spec:"15 reps each side", weight:"Medium resistance band", timer:null},
+          {name:"Side plank hold", spec:"25 seconds each side", weight:"Bodyweight", timer:25}
+        ]
+      },
+      {
+        name:"Block 4 — Functional Finisher", rounds:2, rest:45,
+        equipment:["Light resistance band","8–10kg dumbbells ×2"],
+        exercises:[
+          {name:"Resistance band pull-apart", spec:"20 reps", weight:"Light band", timer:null},
+          {name:"Dumbbell hip hinge", spec:"17 reps", weight:"8–10kg each hand", timer:null},
+          {name:"Glute bridge", spec:"20 reps", weight:"Bodyweight", timer:null}
+        ]
+      },
+      {
+        name:"Cardio Finisher", rounds:1, rest:0,
+        equipment:[],
+        exercises:[
+          {name:"Step touch side to side", spec:"60 seconds", weight:"Bodyweight", timer:60},
+          {name:"Marching in place with high knees", spec:"60 seconds", weight:"Bodyweight", timer:60},
+          {name:"Modified jumping jacks", spec:"60 seconds", weight:"Bodyweight", timer:60},
+          {name:"Step touch side to side", spec:"75 seconds", weight:"Bodyweight", timer:75, note:"Final push — keep the arms going, breathe through it"}
+        ]
+      },
+      {
+        name:"Cool-Down", rounds:null, rest:0,
+        equipment:["Mat"],
+        exercises:[
+          {name:"Chest opener stretch", spec:"30 seconds each side", weight:"Bodyweight", timer:30},
+          {name:"Lat stretch", spec:"30 seconds each side", weight:"Bodyweight", timer:30},
+          {name:"Child's pose", spec:"45 seconds", weight:"Bodyweight", timer:45},
+          {name:"Hip flexor stretch", spec:"30 seconds each side", weight:"Bodyweight", timer:30}
+        ]
+      }
+    ]
+  },
+  B3: {
+    id:"B3", label:"Session B", name:"Lower & Posterior",
+    blocks:[
+      {
+        name:"Warm-Up", rounds:null, rest:0,
+        equipment:["Light resistance band","Mat"],
+        exercises:[
+          {name:"Hip circles", spec:"10 each direction", weight:"Bodyweight", timer:null},
+          {name:"Glute bridges", spec:"10 reps", weight:"Bodyweight", timer:null},
+          {name:"Banded clamshells", spec:"10 reps each side", weight:"Light band", timer:null},
+          {name:"Inchworm", spec:"5 reps", weight:"Bodyweight", timer:null},
+          {name:"World's greatest stretch", spec:"5 each side", weight:"Bodyweight", timer:null}
+        ]
+      },
+      {
+        name:"Block 1 — Lower Body Activation", rounds:4, rest:45,
+        equipment:["Light resistance band","Mat"],
+        exercises:[
+          {name:"Bodyweight squat with 3-second pause", spec:"17 reps", weight:"Bodyweight", timer:null},
+          {name:"Lateral band walk", spec:"17 steps each direction", weight:"Light resistance band", timer:null}
+        ]
+      },
+      {
+        name:"Block 2 — Glutes & Hips", rounds:4, rest:45,
+        equipment:["Light resistance band","Light-medium resistance band","Mat"],
+        exercises:[
+          {name:"Single-leg glute bridge", spec:"17 reps each side", weight:"Bodyweight", timer:null},
+          {name:"Resistance band kickback", spec:"17 reps each side", weight:"Light-medium band", timer:null},
+          {name:"Donkey kick with band", spec:"17 reps each side", weight:"Light band", timer:null},
+          {name:"Clamshell", spec:"17 reps each side", weight:"Light band", timer:null}
+        ]
+      },
+      {
+        name:"Cardio Burst", rounds:2, rest:20,
+        equipment:[],
+        exercises:[
+          {name:"Step touch side to side", spec:"50 seconds", weight:"Bodyweight", timer:50, note:"Wide steps, pump the arms — keep moving continuously"},
+          {name:"Marching in place with high knees", spec:"50 seconds", weight:"Bodyweight", timer:50},
+          {name:"Modified jumping jacks (low impact)", spec:"50 seconds", weight:"Bodyweight", timer:50, note:"Step one foot out at a time — same arm movement as regular jacks"}
+        ]
+      },
+      {
+        name:"Block 3 — Core", rounds:3, rest:30,
+        equipment:["5kg dumbbell ×1","Mat"],
+        exercises:[
+          {name:"Bird dog", spec:"12 reps each side", weight:"Bodyweight", timer:null},
+          {name:"Hollow body hold", spec:"25 seconds", weight:"Bodyweight", timer:25},
+          {name:"Russian twist", spec:"22 reps", weight:"5kg", timer:null}
+        ]
+      },
+      {
+        name:"Block 4 — Upper Body Pull", rounds:2, rest:45,
+        equipment:["Medium resistance band","10kg dumbbells ×2"],
+        exercises:[
+          {name:"Resistance band face pull", spec:"22 reps", weight:"Medium resistance band", timer:null},
+          {name:"Dumbbell bent-over row", spec:"17 reps", weight:"10kg each hand", timer:null},
+          {name:"Plank shoulder taps", spec:"22 reps", weight:"Bodyweight", timer:null}
+        ]
+      },
+      {
+        name:"Cardio Finisher", rounds:1, rest:0,
+        equipment:[],
+        exercises:[
+          {name:"Marching in place with high knees", spec:"60 seconds", weight:"Bodyweight", timer:60},
+          {name:"Step touch side to side", spec:"60 seconds", weight:"Bodyweight", timer:60},
+          {name:"Modified jumping jacks", spec:"60 seconds", weight:"Bodyweight", timer:60},
+          {name:"Marching in place", spec:"75 seconds", weight:"Bodyweight", timer:75, note:"Final push — keep the pace, breathe through it"}
+        ]
+      },
+      {
+        name:"Cool-Down", rounds:null, rest:0,
+        equipment:["Mat"],
+        exercises:[
+          {name:"Figure four stretch", spec:"45 seconds each side", weight:"Bodyweight", timer:45},
+          {name:"Seated forward fold", spec:"45 seconds", weight:"Bodyweight", timer:45},
+          {name:"Pigeon pose", spec:"45 seconds each side", weight:"Bodyweight", timer:45},
+          {name:"Supine twist", spec:"30 seconds each side", weight:"Bodyweight", timer:30}
+        ]
+      }
+    ]
+  }
 };
 
 // ══════════════════════════════════════════
-// HELPERS
+// STATE
+// ══════════════════════════════════════════
+let S = {
+  programme: null,
+  weekIdx: 0,
+  sessionKey: null,
+  session: null,
+  blockIdx: 0,
+  // per-block check state: array of booleans per exercise
+  checked: [],
+  // timer
+  timerInterval: null,
+  timerPhase: null, // 'countdown' | 'exercise'
+  timerSeconds: 0,
+  timerTotal: 0,
+  timerPaused: false,
+  timerExerciseName: '',
+  timerExerciseSeconds: 0,
+  timerCallback: null,
+};
+
+const CIRCUMFERENCE = 2 * Math.PI * 88; // r=88
+
+// ══════════════════════════════════════════
+// SCREENS
 // ══════════════════════════════════════════
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
-}
-
-function resolveWeekSessions(prog, weekIdx) {
-  const week = prog.weeks[weekIdx];
-  if (Array.isArray(week.sessions) && typeof week.sessions[0] === 'object') {
-    return week.sessions;
-  }
-  // fallback: copy from week 0 or 2
-  const sourceIdx = weekIdx >= 2 ? 2 : 0;
-  const source = prog.weeks[sourceIdx];
-  return source.sessions;
-}
-
-// Build flat step list from session
-function buildSteps(session) {
-  const steps = [];
-  session.blocks.forEach((block, bi) => {
-    const totalRounds = block.rounds || 1;
-    for (let r = 1; r <= totalRounds; r++) {
-      // Equipment reminder at start of first round of each block
-      if (r === 1 && block.equipment && block.equipment.length > 0) {
-        steps.push({ type: 'equipment', blockName: block.name, equipment: block.equipment, blockIndex: bi });
-      }
-      block.exercises.forEach((ex, ei) => {
-        steps.push({ type: 'exercise', exercise: ex, block: block, round: r, totalRounds, blockIndex: bi, exIndex: ei });
-      });
-      // Rest after each round (except last round of block, except if rest=0)
-      if (block.rest > 0 && r < totalRounds) {
-        steps.push({ type: 'rest', seconds: block.rest, round: r, blockName: block.name });
-      }
-      // Rest between blocks (after last round)
-      if (block.rest > 0 && r === totalRounds && bi < session.blocks.length - 1) {
-        steps.push({ type: 'block_rest', seconds: block.rest, blockName: block.name });
-      }
-    }
-  });
-  return steps;
 }
 
 // ══════════════════════════════════════════
-// HOME SCREEN
+// HOME
 // ══════════════════════════════════════════
 function renderHome() {
-  const container = document.getElementById('programmeCards');
-  container.innerHTML = '';
-  programmes.forEach(prog => {
+  const list = document.getElementById('programmeList');
+  list.innerHTML = '';
+  programmes.forEach(p => {
     const card = document.createElement('div');
     card.className = 'programme-card';
     card.innerHTML = `
-      <div class="card-top">
-        <div class="card-label">${prog.label}</div>
-        <div class="card-sessions">${prog.weeks.length} weeks</div>
-      </div>
-      <div class="card-name">${prog.name}</div>
-      <div class="card-meta">${prog.description}</div>
+      <div class="pc-top"><span class="pc-label">${p.label}</span><span class="pc-weeks">${p.weeks.length} weeks</span></div>
+      <div class="pc-name">${p.name}</div>
+      <div class="pc-desc">${p.description}</div>
     `;
-    card.onclick = () => openProgramme(prog);
-    container.appendChild(card);
+    card.onclick = () => openProgramme(p);
+    list.appendChild(card);
   });
 }
 
-function openProgramme(prog) {
-  state.programme = prog;
-  state.week = 0;
-  state.session = null;
-  document.getElementById('overviewTitle').textContent = prog.name;
+function openProgramme(p) {
+  S.programme = p;
+  S.weekIdx = 0;
+  S.sessionKey = null;
+  document.getElementById('pickerTitle').textContent = p.name;
   renderWeekTabs();
-  renderSessionSelector();
-  showScreen('overview');
+  renderSessionGrid();
+  showScreen('picker');
 }
 
 // ══════════════════════════════════════════
-// OVERVIEW SCREEN
+// PICKER
 // ══════════════════════════════════════════
 function renderWeekTabs() {
-  const prog = state.programme;
-  const tabs = document.getElementById('weekTabs');
-  tabs.innerHTML = '';
-  prog.weeks.forEach((w, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'week-tab' + (i === state.week ? ' active' : '');
-    btn.textContent = `Week ${w.week}`;
-    btn.onclick = () => { state.week = i; state.session = null; renderWeekTabs(); renderSessionSelector(); };
-    tabs.appendChild(btn);
+  const el = document.getElementById('weekTabs');
+  el.innerHTML = '';
+  S.programme.weeks.forEach((w, i) => {
+    const b = document.createElement('button');
+    b.className = 'week-tab' + (i === S.weekIdx ? ' active' : '');
+    b.textContent = `Week ${w.week}`;
+    b.onclick = () => { S.weekIdx = i; S.sessionKey = null; renderWeekTabs(); renderSessionGrid(); };
+    el.appendChild(b);
   });
 }
 
-function renderSessionSelector() {
-  const prog = state.programme;
-  const sessions = resolveWeekSessions(prog, state.week);
-  const sel = document.getElementById('sessionSelector');
-  sel.innerHTML = '';
-  sessions.forEach((s, i) => {
-    const btn = document.createElement('div');
-    btn.className = 'session-btn' + (state.session === i ? ' selected' : '');
-    btn.innerHTML = `<div class="session-btn-label">${s.label}</div><div class="session-btn-name">${s.name}</div>`;
-    btn.onclick = () => { state.session = i; renderSessionSelector(); renderBlockPreviews(); };
-    sel.appendChild(btn);
+function renderSessionGrid() {
+  const grid = document.getElementById('sessionGrid');
+  grid.innerHTML = '';
+  const week = S.programme.weeks[S.weekIdx];
+  week.sessions.forEach(key => {
+    const sess = sessions[key];
+    const card = document.createElement('div');
+    card.className = 'session-card' + (S.sessionKey === key ? ' selected' : '');
+    card.innerHTML = `<div class="sc-label">${sess.label}</div><div class="sc-name">${sess.name}</div>`;
+    card.onclick = () => { S.sessionKey = key; renderSessionGrid(); renderBlockListPreview(); };
+    grid.appendChild(card);
   });
-  if (state.session === null) {
-    document.getElementById('blockPreviews').innerHTML = '';
-  }
+  document.getElementById('blockListWrap').style.display = S.sessionKey ? 'block' : 'none';
+  if (S.sessionKey) renderBlockListPreview();
 }
 
-function renderBlockPreviews() {
-  if (state.session === null) return;
-  const sessions = resolveWeekSessions(state.programme, state.week);
-  const session = sessions[state.session];
-  const container = document.getElementById('blockPreviews');
-  container.innerHTML = '';
-
-  session.blocks.forEach((block, bi) => {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'block-preview';
-
-    const header = document.createElement('div');
-    header.className = 'block-header';
-    header.innerHTML = `
-      <div class="block-header-left">
-        <div class="block-title">${block.name}</div>
-        <div class="block-rounds">${block.rounds ? block.rounds + ' rounds' : 'Single pass'} · ${block.exercises.length} exercises</div>
+function renderBlockListPreview() {
+  const sess = sessions[S.sessionKey];
+  const el = document.getElementById('blockListPreview');
+  el.innerHTML = '';
+  sess.blocks.forEach((b, i) => {
+    const item = document.createElement('div');
+    item.className = 'block-item';
+    item.innerHTML = `
+      <div class="bi-left">
+        <div class="bi-name">${b.name}</div>
+        <div class="bi-meta">${b.rounds ? b.rounds + ' rounds · ' : ''}${b.exercises.length} exercises</div>
       </div>
-      <div class="block-chevron" id="chev${bi}">▾</div>
+      <div class="bi-arrow">›</div>
     `;
-
-    const equip = document.createElement('div');
-    equip.className = 'block-equipment';
-    equip.style.display = 'none';
-    if (block.equipment && block.equipment.length > 0) {
-      equip.innerHTML = `<strong>📦 You'll need:</strong> ${block.equipment.join(', ')}`;
-    }
-
-    const exList = document.createElement('div');
-    exList.className = 'block-exercises';
-    block.exercises.forEach(ex => {
-      const row = document.createElement('div');
-      row.className = 'exercise-row';
-      row.innerHTML = `<div class="exercise-name">${ex.name}</div><div class="exercise-spec">${ex.spec}<br><span style="color:var(--mid)">${ex.weight}</span></div>`;
-      exList.appendChild(row);
-    });
-
-    let open = false;
-    header.onclick = () => {
-      open = !open;
-      header.classList.toggle('open', open);
-      exList.classList.toggle('open', open);
-      document.getElementById('chev'+bi).classList.toggle('open', open);
-      equip.style.display = open && block.equipment && block.equipment.length > 0 ? 'block' : 'none';
-    };
-
-    wrapper.appendChild(header);
-    if (block.equipment && block.equipment.length > 0) wrapper.appendChild(equip);
-    wrapper.appendChild(exList);
-    container.appendChild(wrapper);
+    el.appendChild(item);
   });
 }
 
-// ══════════════════════════════════════════
-// START WORKOUT
-// ══════════════════════════════════════════
-function startWorkout() {
-  if (state.session === null) { alert('Please select a session first.'); return; }
-  const sessions = resolveWeekSessions(state.programme, state.week);
-  const session = sessions[state.session];
-  state.steps = buildSteps(session);
-  state.stepIndex = 0;
-  clearTimers();
-  showScreen('workout');
-  renderStep();
+function startSession() {
+  if (!S.sessionKey) { alert('Please select a session first.'); return; }
+  S.session = sessions[S.sessionKey];
+  S.blockIdx = 0;
+  loadBlock(0);
+  showScreen('blockview');
 }
 
-function clearTimers() {
-  if (state.timerInterval) clearInterval(state.timerInterval);
-  state.timerInterval = null;
-  state.timerRunning = false;
+// ══════════════════════════════════════════
+// BLOCK VIEW
+// ══════════════════════════════════════════
+function loadBlock(idx) {
+  S.blockIdx = idx;
+  const block = S.session.blocks[idx];
+  S.checked = block.exercises.map(() => false);
+  stopTimer();
+
+  // Top bar
+  document.getElementById('bvSessionName').textContent = S.session.label + ' · ' + S.session.name;
+  document.getElementById('bvBlockName').textContent = block.name;
+
+  // Progress dots
+  const dots = document.getElementById('blockProgressDots');
+  dots.innerHTML = '';
+  S.session.blocks.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'bp-dot' + (i < idx ? ' done' : i === idx ? ' active' : '');
+    dots.appendChild(d);
+  });
+
+  renderBlockBody();
 }
 
-function renderStep() {
-  const step = state.steps[state.stepIndex];
-  const total = state.steps.length;
-  const pct = Math.round((state.stepIndex / total) * 100);
-
-  document.getElementById('workoutProgressLabel').textContent =
-    `Step ${state.stepIndex + 1} of ${total}`;
-  document.getElementById('workoutProgressFill').style.width = pct + '%';
-
-  const body = document.getElementById('workoutBody');
+function renderBlockBody() {
+  const block = S.session.blocks[S.blockIdx];
+  const body = document.getElementById('bvBody');
   body.innerHTML = '';
 
-  if (step.type === 'equipment') {
-    renderEquipmentStep(step, body);
-  } else if (step.type === 'exercise') {
-    renderExerciseStep(step, body);
-  } else if (step.type === 'rest' || step.type === 'block_rest') {
-    renderRestStep(step, body);
+  // Equipment banner
+  if (block.equipment && block.equipment.length > 0) {
+    const eq = document.createElement('div');
+    eq.className = 'equip-banner';
+    eq.innerHTML = `<div class="equip-label">📦 You'll need</div><div class="equip-items">${block.equipment.join('<br>')}</div>`;
+    body.appendChild(eq);
   }
-}
 
-function nextStep() {
-  clearTimers();
-  state.stepIndex++;
-  if (state.stepIndex >= state.steps.length) {
-    finishWorkout();
-    return;
+  // Rounds badge
+  if (block.rounds) {
+    const rb = document.createElement('div');
+    rb.className = 'rounds-badge';
+    rb.innerHTML = `<span class="rb-dot"></span> ${block.rounds} rounds · Check off each exercise as you complete it`;
+    body.appendChild(rb);
   }
-  renderStep();
-}
 
-function renderEquipmentStep(step, body) {
-  const nextLabel = state.stepIndex + 1 < state.steps.length
-    ? state.steps[state.stepIndex + 1].exercise?.name || 'Next'
-    : 'Finish';
+  // Exercise cards
+  block.exercises.forEach((ex, i) => {
+    const card = document.createElement('div');
+    card.className = 'ex-card' + (S.checked[i] ? ' completed' : '');
+    card.id = `excard-${i}`;
 
-  body.innerHTML = `
-    <div class="step-type">Get Ready</div>
-    <div class="step-name">${step.blockName}</div>
-    <div class="equipment-reminder">
-      <div class="equipment-reminder-label">📦 You'll need</div>
-      <div class="equipment-reminder-list">${step.equipment.join('<br>')}</div>
-    </div>
-    <div style="margin-top:auto;padding-top:32px;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:flex-end;">
-      <button class="next-btn" onclick="nextStep()">Ready →</button>
-    </div>
-  `;
-}
+    // If this is first unchecked exercise, mark as active
+    const firstUnchecked = S.checked.indexOf(false);
+    if (i === firstUnchecked && !S.checked[i]) card.classList.add('active-ex');
 
-function renderExerciseStep(step, body) {
-  const ex = step.exercise;
-  const isLastStep = state.stepIndex === state.steps.length - 1;
-  const nextStep_ = !isLastStep ? state.steps[state.stepIndex + 1] : null;
-  const nextName = nextStep_ ? (nextStep_.exercise?.name || (nextStep_.type === 'rest' || nextStep_.type === 'block_rest' ? 'Rest' : nextStep_.blockName)) : 'Finish';
-
-  // Round dots
-  let roundDots = '';
-  if (step.totalRounds > 1) {
-    for (let i = 1; i <= step.totalRounds; i++) {
-      const cls = i < step.round ? 'done' : i === step.round ? 'current' : '';
-      roundDots += `<div class="round-dot ${cls}">${i < step.round ? '✓' : i}</div>`;
+    let timerHTML = '';
+    if (ex.timer) {
+      timerHTML = `
+        <div class="ex-timer-section">
+          <button class="timer-start-btn" id="timerbtn-${i}" onclick="launchTimer(${i})">
+            ▶ Start ${ex.timer}s Timer
+          </button>
+        </div>`;
     }
-  }
 
-  const timerSection = ex.timer ? `
-    <div class="timer-display">
-      <div class="timer-label">Hold for</div>
-      <div class="timer-number" id="timerNum">${ex.timer}</div>
-      <div class="timer-controls">
-        <button class="timer-btn primary" id="timerStartBtn" onclick="toggleTimer(${ex.timer})">Start</button>
-        <button class="timer-btn" onclick="resetTimer(${ex.timer})">Reset</button>
+    card.innerHTML = `
+      <div class="ex-main" onclick="toggleCheck(${i})">
+        <div class="ex-check"><span class="check-icon">✓</span></div>
+        <div class="ex-text">
+          <div class="ex-name">${ex.name}</div>
+          <div class="ex-spec-row">
+            <span class="ex-spec">${ex.spec}</span>
+            <span style="color:var(--light)">·</span>
+            <span class="ex-weight">${ex.weight}</span>
+          </div>
+        </div>
       </div>
-    </div>
-  ` : '';
+      ${ex.note ? `<div class="ex-note">${ex.note}</div>` : ''}
+      ${timerHTML}
+    `;
+    body.appendChild(card);
+  });
 
-  body.innerHTML = `
-    ${roundDots ? `<div class="round-indicator">${roundDots}</div>` : ''}
-    <div class="step-type">${step.block.name}</div>
-    <div class="step-name">${ex.name}</div>
-    <div>
-      <span class="step-spec"><span class="spec-dot"></span>${ex.spec}</span>
-      <span class="step-spec"><span class="spec-dot"></span>${ex.weight}</span>
-    </div>
-    ${ex.note ? `<div class="step-notes">${ex.note}</div>` : ''}
-    ${timerSection}
-    <div class="next-preview">
-      <div>
-        <div class="next-label">Next</div>
-        <div class="next-name">${nextName}</div>
-      </div>
-      <button class="next-btn" id="nextBtn" onclick="nextStep()">${isLastStep ? 'Finish ✓' : 'Done →'}</button>
-    </div>
-  `;
-
-  if (ex.timer) {
-    state.timerSeconds = ex.timer;
-    state.timerRunning = false;
+  // Rest reminder (if block has rest)
+  if (block.rounds && block.rest > 0) {
+    const restEl = document.createElement('div');
+    restEl.style.cssText = 'padding:14px 16px;border:1px dashed var(--border);border-radius:2px;font-size:11px;color:var(--mid);text-align:center;margin-top:4px;';
+    restEl.innerHTML = `Rest ${block.rest}s between rounds`;
+    body.appendChild(restEl);
   }
 }
 
-function renderRestStep(step, body) {
-  const isLastStep = state.stepIndex === state.steps.length - 1;
-  const nextStep_ = !isLastStep ? state.steps[state.stepIndex + 1] : null;
-  const nextName = nextStep_ ? (nextStep_.exercise?.name || nextStep_.blockName || 'Continue') : 'Finish';
-
-  body.innerHTML = `
-    <div class="step-type">Rest</div>
-    <div class="step-name">Recover</div>
-    <div class="timer-display">
-      <div class="timer-label">Rest for</div>
-      <div class="timer-number" id="timerNum">${step.seconds}</div>
-      <div class="timer-controls">
-        <button class="timer-btn primary" id="timerStartBtn" onclick="toggleTimer(${step.seconds})">Start</button>
-        <button class="timer-btn" onclick="resetTimer(${step.seconds})">Reset</button>
-      </div>
-    </div>
-    <div class="next-preview">
-      <div>
-        <div class="next-label">Coming up</div>
-        <div class="next-name">${nextName}</div>
-      </div>
-      <button class="next-btn" onclick="nextStep()">Skip →</button>
-    </div>
-  `;
-
-  state.timerSeconds = step.seconds;
-  state.timerRunning = false;
-  // Auto-start rest timer
-  setTimeout(() => toggleTimer(step.seconds), 100);
+function toggleCheck(exIdx) {
+  S.checked[exIdx] = !S.checked[exIdx];
+  updateCardState(exIdx);
+  checkBlockCompletion();
 }
 
-function toggleTimer(originalSeconds) {
-  const btn = document.getElementById('timerStartBtn');
-  if (!state.timerRunning) {
-    state.timerRunning = true;
-    if (btn) btn.textContent = 'Pause';
-    state.timerInterval = setInterval(() => {
-      state.timerSeconds--;
-      const el = document.getElementById('timerNum');
-      if (el) {
-        el.textContent = state.timerSeconds;
-        el.classList.toggle('warning', state.timerSeconds <= 5);
+function updateCardState(exIdx) {
+  const block = S.session.blocks[S.blockIdx];
+  const card = document.getElementById(`excard-${exIdx}`);
+  if (!card) return;
+
+  card.classList.toggle('completed', S.checked[exIdx]);
+  card.classList.remove('active-ex');
+
+  // Mark next unchecked as active
+  const firstUnchecked = S.checked.indexOf(false);
+  if (firstUnchecked !== -1) {
+    const nextCard = document.getElementById(`excard-${firstUnchecked}`);
+    if (nextCard) nextCard.classList.add('active-ex');
+  }
+}
+
+function checkBlockCompletion() {
+  const allDone = S.checked.every(v => v);
+  if (allDone) {
+    setTimeout(() => showBlockComplete(), 400);
+  }
+}
+
+function showBlockComplete() {
+  const block = S.session.blocks[S.blockIdx];
+  const isLast = S.blockIdx >= S.session.blocks.length - 1;
+
+  document.getElementById('bcTitle').innerHTML = isLast
+    ? 'Session <em>Complete!</em>'
+    : 'Block <em>Done!</em>';
+
+  document.getElementById('bcSub').textContent = isLast
+    ? 'Amazing work. You\'ve finished the full session.'
+    : `${block.name} complete. ${block.rest > 0 ? `Take a ${block.rest}s rest before the next block.` : 'Move straight on when ready.'}`;
+
+  const btn = document.getElementById('bcNextBtn');
+  if (isLast) {
+    btn.textContent = 'Finish Session ✦';
+  } else {
+    const next = S.session.blocks[S.blockIdx + 1];
+    btn.textContent = `Next: ${next.name} →`;
+  }
+
+  document.getElementById('blockComplete').classList.add('visible');
+}
+
+function hideBlockComplete() {
+  document.getElementById('blockComplete').classList.remove('visible');
+}
+
+function goNextBlock() {
+  hideBlockComplete();
+  const isLast = S.blockIdx >= S.session.blocks.length - 1;
+  if (isLast) {
+    const weekNum = S.programme.weeks[S.weekIdx].week;
+    logSessionComplete(S.programme.id, weekNum, S.sessionKey, S.session.name);
+    document.getElementById('scSub').textContent = `${S.session.label}: ${S.session.name} — Week ${weekNum} complete.`;
+    showScreen('sessionComplete');
+  } else {
+    loadBlock(S.blockIdx + 1);
+  }
+}
+
+function confirmExitBlock() {
+  if (confirm('Exit this workout?')) {
+    stopTimer();
+    showScreen('picker');
+  }
+}
+
+// ══════════════════════════════════════════
+// TIMER
+// ══════════════════════════════════════════
+const ringFill = document.getElementById('toRingFill');
+ringFill.style.strokeDasharray = CIRCUMFERENCE;
+ringFill.style.strokeDashoffset = 0;
+
+function launchTimer(exIdx) {
+  const block = S.session.blocks[S.blockIdx];
+  const ex = block.exercises[exIdx];
+  if (!ex.timer) return;
+
+  S.timerExerciseName = ex.name;
+  S.timerExerciseSeconds = ex.timer;
+  S.timerCallback = () => {
+    // Mark exercise as complete after timer finishes
+    S.checked[exIdx] = true;
+    updateCardState(exIdx);
+    checkBlockCompletion();
+  };
+
+  startCountdownThenExercise(5, ex.timer, ex.name);
+}
+
+function startCountdownThenExercise(countdownSecs, exerciseSecs, exerciseName) {
+  const overlay = document.getElementById('timerOverlay');
+  const countdown = document.getElementById('toCountdown');
+  const number = document.getElementById('toNumber');
+  const label = document.getElementById('toLabel');
+  const phase = document.getElementById('toPhase');
+  const exEl = document.getElementById('toExercise');
+  const pauseBtn = document.getElementById('toPauseBtn');
+
+  overlay.classList.add('visible');
+  exEl.textContent = exerciseName;
+  pauseBtn.style.display = 'none'; // hide pause during countdown
+
+  // Setup ring for countdown
+  ringFill.style.stroke = 'var(--accent)';
+  ringFill.classList.remove('warning');
+  number.classList.remove('warning');
+
+  S.timerPhase = 'countdown';
+  S.timerSeconds = countdownSecs;
+  S.timerTotal = countdownSecs;
+  S.timerPaused = false;
+
+  label.textContent = 'Get Ready';
+  phase.textContent = 'Starting in...';
+  countdown.textContent = countdownSecs;
+  countdown.classList.remove('hidden');
+  number.textContent = '';
+  setRingProgress(1);
+
+  stopTimer();
+  S.timerInterval = setInterval(() => {
+    if (S.timerPaused) return;
+    S.timerSeconds--;
+
+    if (S.timerPhase === 'countdown') {
+      countdown.textContent = S.timerSeconds > 0 ? S.timerSeconds : 'Go!';
+      setRingProgress(S.timerSeconds / S.timerTotal);
+
+      if (S.timerSeconds <= 0) {
+        // Transition to exercise timer
+        setTimeout(() => {
+          S.timerPhase = 'exercise';
+          S.timerSeconds = exerciseSecs;
+          S.timerTotal = exerciseSecs;
+          label.textContent = 'Hold';
+          phase.textContent = 'In progress';
+          countdown.classList.add('hidden');
+          number.textContent = S.timerSeconds;
+          setRingProgress(1);
+          pauseBtn.style.display = '';
+        }, 500);
       }
-      if (state.timerSeconds <= 0) {
-        clearTimers();
-        if (btn) btn.textContent = 'Done!';
-        // Auto-advance for rest steps
-        const step = state.steps[state.stepIndex];
-        if (step.type === 'rest' || step.type === 'block_rest') {
-          setTimeout(() => nextStep(), 800);
+    } else if (S.timerPhase === 'exercise') {
+      number.textContent = S.timerSeconds;
+      setRingProgress(S.timerSeconds / S.timerTotal);
+
+      const isWarning = S.timerSeconds <= 5;
+      ringFill.classList.toggle('warning', isWarning);
+      number.classList.toggle('warning', isWarning);
+      phase.textContent = S.timerSeconds <= 5 ? 'Almost there...' : 'In progress';
+
+      if (S.timerSeconds <= 0) {
+        stopTimer();
+        // Done!
+        number.textContent = '✓';
+        number.classList.remove('warning');
+        ringFill.classList.remove('warning');
+        ringFill.style.stroke = 'var(--success)';
+        label.textContent = 'Done!';
+        phase.textContent = '';
+        pauseBtn.style.display = 'none';
+        // Auto close after 1.2s
+        setTimeout(() => {
+          closeTimer();
+          if (S.timerCallback) S.timerCallback();
+        }, 1200);
+      }
+    }
+  }, 1000);
+}
+
+function setRingProgress(fraction) {
+  const offset = CIRCUMFERENCE * (1 - Math.max(0, Math.min(1, fraction)));
+  ringFill.style.strokeDashoffset = offset;
+}
+
+function toggleTimerPause() {
+  if (S.timerPhase !== 'exercise') return;
+  S.timerPaused = !S.timerPaused;
+  document.getElementById('toPauseBtn').textContent = S.timerPaused ? 'Resume' : 'Pause';
+  document.getElementById('toPhase').textContent = S.timerPaused ? 'Paused' : 'In progress';
+}
+
+function closeTimer() {
+  stopTimer();
+  document.getElementById('timerOverlay').classList.remove('visible');
+  document.getElementById('toCountdown').classList.add('hidden');
+  document.getElementById('toPauseBtn').textContent = 'Pause';
+}
+
+function stopTimer() {
+  if (S.timerInterval) { clearInterval(S.timerInterval); S.timerInterval = null; }
+}
+
+// ══════════════════════════════════════════
+// PROGRESS TRACKING (localStorage)
+// ══════════════════════════════════════════
+const LOG_KEY = 'training_log_v1';
+
+function loadLog() {
+  try { return JSON.parse(localStorage.getItem(LOG_KEY)) || []; }
+  catch(e) { return []; }
+}
+
+function saveLog(log) {
+  localStorage.setItem(LOG_KEY, JSON.stringify(log));
+}
+
+function logSessionComplete(programmeId, weekNum, sessionKey, sessionName) {
+  const log = loadLog();
+  log.push({
+    programmeId,
+    weekNum,
+    sessionKey,
+    sessionName,
+    completedAt: new Date().toISOString()
+  });
+  saveLog(log);
+  updateHomeProgressCount();
+}
+
+function isSessionDone(log, programmeId, weekNum, sessionKey) {
+  return log.some(e => e.programmeId === programmeId && e.weekNum === weekNum && e.sessionKey === sessionKey);
+}
+
+function updateHomeProgressCount() {
+  const log = loadLog();
+  const total = programmes.reduce((n, p) => n + p.weeks.reduce((m, w) => m + w.sessions.length, 0), 0);
+  const done = log.length;
+  const el = document.getElementById('homeProgressCount');
+  if (el) el.textContent = done > 0 ? `${done} / ${total} sessions` : '';
+}
+
+function showProgressScreen() {
+  renderProgressScreen();
+  showScreen('progress');
+}
+
+function renderProgressScreen() {
+  const log = loadLog();
+  const body = document.getElementById('progressBody');
+  body.innerHTML = '';
+
+  programmes.forEach(prog => {
+    // Summary stats
+    const totalSessions = prog.weeks.reduce((n, w) => n + w.sessions.length, 0);
+    const doneSessions = prog.weeks.reduce((n, w) =>
+      n + w.sessions.filter(k => isSessionDone(log, prog.id, w.week, k)).length, 0);
+    const weeksStarted = new Set(log.filter(e => e.programmeId === prog.id).map(e => e.weekNum)).size;
+
+    const summary = document.createElement('div');
+    summary.className = 'prog-summary';
+    summary.innerHTML = `
+      <div class="prog-stat"><div class="prog-stat-num">${doneSessions}</div><div class="prog-stat-label">Sessions Done</div></div>
+      <div class="prog-stat"><div class="prog-stat-num">${totalSessions - doneSessions}</div><div class="prog-stat-label">Remaining</div></div>
+      <div class="prog-stat"><div class="prog-stat-num">${weeksStarted}</div><div class="prog-stat-label">Weeks Active</div></div>
+    `;
+    body.appendChild(summary);
+
+    // Find next session to do
+    let nextWeekNum = null, nextSessionKey = null;
+    outer: for (const w of prog.weeks) {
+      for (const k of w.sessions) {
+        if (!isSessionDone(log, prog.id, w.week, k)) {
+          nextWeekNum = w.week;
+          nextSessionKey = k;
+          break outer;
         }
       }
-    }, 1000);
-  } else {
-    clearTimers();
-    if (btn) btn.textContent = 'Resume';
-  }
+    }
+
+    // Week-by-week breakdown
+    prog.weeks.forEach(w => {
+      const weekEl = document.createElement('div');
+      weekEl.className = 'prog-week';
+
+      const weekTitle = document.createElement('div');
+      weekTitle.className = 'prog-week-title';
+      weekTitle.textContent = `Week ${w.week}`;
+      weekEl.appendChild(weekTitle);
+
+      w.sessions.forEach(k => {
+        const sess = sessions[k];
+        const done = isSessionDone(log, prog.id, w.week, k);
+        const isCurrent = (w.week === nextWeekNum && k === nextSessionKey);
+        const entry = log.find(e => e.programmeId === prog.id && e.weekNum === w.week && e.sessionKey === k);
+
+        const row = document.createElement('div');
+        row.className = 'prog-session-row' + (done ? ' done' : isCurrent ? ' current' : '');
+        row.innerHTML = `
+          <div class="psr-tick">${done ? '✓' : ''}</div>
+          <div class="psr-info">
+            <div class="psr-name">${sess.label} — ${sess.name}</div>
+            <div class="psr-meta">${done ? 'Completed ' + formatDate(entry.completedAt) : isCurrent ? 'Up next' : 'Not yet started'}</div>
+          </div>
+          <div class="psr-badge">${done ? 'Done' : isCurrent ? 'Next' : '—'}</div>
+        `;
+        weekEl.appendChild(row);
+      });
+
+      body.appendChild(weekEl);
+    });
+
+    // Reset button
+    const resetBtn = document.createElement('button');
+    resetBtn.className = 'prog-reset-btn';
+    resetBtn.textContent = 'Reset All Progress';
+    resetBtn.onclick = () => {
+      if (confirm('Reset all progress? This cannot be undone.')) {
+        try {
+          localStorage.removeItem(LOG_KEY);
+          localStorage.setItem(LOG_KEY, JSON.stringify([]));
+        } catch(e) {}
+        updateHomeProgressCount();
+        renderProgressScreen();
+        alert('Progress reset successfully.');
+      }
+    };
+    body.appendChild(resetBtn);
+  });
 }
 
-function resetTimer(originalSeconds) {
-  clearTimers();
-  state.timerSeconds = originalSeconds;
-  const el = document.getElementById('timerNum');
-  if (el) { el.textContent = originalSeconds; el.classList.remove('warning'); }
-  const btn = document.getElementById('timerStartBtn');
-  if (btn) btn.textContent = 'Start';
-}
-
-function confirmExit() {
-  if (confirm('End this workout session?')) {
-    clearTimers();
-    showScreen('overview');
-  }
-}
-
-function finishWorkout() {
-  clearTimers();
-  const sessions = resolveWeekSessions(state.programme, state.week);
-  const session = sessions[state.session];
-  document.getElementById('completeSub').textContent =
-    `${session.label}: ${session.name} — Week ${state.programme.weeks[state.week].week} complete.`;
-  showScreen('complete');
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 }
 
 // ══════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════
 renderHome();
+updateHomeProgressCount();
 </script>
 </body>
 </html>
